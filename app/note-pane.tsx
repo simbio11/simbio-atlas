@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {EyeOff, Undo2, RotateCcw, ExternalLink, ArrowLeft, Search} from 'lucide-react';
+import {EyeOff, Undo2, RotateCcw, ExternalLink, Search} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {GARDEN_BASE, type NoteResolution} from './note-link';
 
@@ -24,11 +24,6 @@ export default function NotePane({resolution, canHide, hiddenCount, onHide, onRe
   return (
     <div className="sc-note-pane">
       <header className="sc-note-bar">
-        <a className="sc-note-home" href={GARDEN_BASE} target="_blank" rel="noreferrer" title="Sim_Bio_Cortex 홈">
-          <ArrowLeft size={15} />
-          <span>Sim_Bio_Cortex</span>
-        </a>
-
         <div className="sc-note-title" title={resolution?.english}>
           {resolution ? (
             <>

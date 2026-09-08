@@ -14,6 +14,88 @@
   --sc-warn: #b5732b;
 }
 
+/* ═══ 공용 상단 스위치 (정원 ↔ 인체 지도) — 가든 Head.tsx 에도 동일 스타일 주입 ═══ */
+.sbc-switch {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #ffffffe8;
+  border: 1px solid #25384a1f;
+  box-shadow: 0 8px 30px #2433441a, 0 1px 2px #24334410;
+  backdrop-filter: blur(16px);
+}
+.sbc-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #5a6472;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+.sbc-switch-btn:hover {
+  color: var(--sc-accent);
+}
+.sbc-switch-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  transition: opacity 0.18s ease, box-shadow 0.18s ease;
+}
+.sbc-switch-btn[data-active='true'] {
+  color: #fff;
+  background: var(--sc-accent);
+  box-shadow: 0 2px 10px rgba(60, 74, 104, 0.45);
+  cursor: default;
+}
+.sbc-switch-btn[data-active='true'] .sbc-switch-dot {
+  opacity: 1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.28), 0 0 10px rgba(255, 255, 255, 0.7);
+}
+@media (max-width: 640px) {
+  .sbc-switch-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ═══ 인체 지도: 좌측 시스템 사이드바 숨김 ═══ */
+.layers-panel,
+.dock-layers,
+.bottom-dock .dock-layers {
+  display: none !important;
+}
+
+/* 사이드바가 사라졌으니 identity 헤더 + 검색/정보 버튼을 공용 스위치 아래로 내림 */
+.identity {
+  top: 66px !important;
+}
+.top-actions {
+  top: 66px !important;
+}
+@media (max-width: 767px) {
+  .identity {
+    top: 60px !important;
+  }
+  .top-actions {
+    top: 60px !important;
+  }
+}
+
 html,
 body,
 #root {
