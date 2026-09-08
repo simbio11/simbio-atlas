@@ -1,0 +1,312 @@
+/* ═══════════════════════════════════════════════════════════════
+   Sim_Bio_Cortex 인체 지도 — 5:5 분할 + 노트 패널 (가든 테마 정렬)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --sc-ink: #1a1a18;
+  --sc-muted: #7a7a75;
+  --sc-line: #e4e4e0;
+  --sc-line-strong: #d3d3ce;
+  --sc-surface: #ffffff;
+  --sc-surface-2: #f5f5f3;
+  --sc-accent: #3c4a68;
+  --sc-accent-soft: rgba(60, 74, 104, 0.08);
+  --sc-warn: #b5732b;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.sc-shell {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: var(--sc-surface-2);
+  overflow: hidden;
+}
+.sc-shell.is-vertical {
+  flex-direction: column;
+}
+
+/* .studio 가 100dvh 로 고정돼 있어 패널 안에서 100% 로 재정의 */
+.sc-atlas-panel .studio {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+.sc-atlas-panel,
+.sc-note-panel {
+  position: relative;
+  overflow: hidden;
+  flex-grow: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ── 리사이즈 핸들 ── */
+.sc-resize-handle {
+  flex: 0 0 8px;
+  width: 8px;
+  background: var(--sc-line);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: col-resize;
+  transition: background 0.15s ease;
+  z-index: 60;
+  touch-action: none;
+}
+.sc-shell.is-vertical .sc-resize-handle {
+  width: 100%;
+  height: 8px;
+  flex: 0 0 8px;
+  cursor: row-resize;
+}
+.sc-resize-handle:hover,
+.sc-resize-handle:focus-visible,
+.sc-resize-handle:active {
+  background: var(--sc-accent);
+  outline: none;
+}
+.sc-resize-grip {
+  width: 2px;
+  height: 34px;
+  border-radius: 2px;
+  background: var(--sc-line-strong);
+}
+.sc-shell.is-vertical .sc-resize-grip {
+  width: 34px;
+  height: 2px;
+}
+.sc-resize-handle:hover .sc-resize-grip,
+.sc-resize-handle:active .sc-resize-grip {
+  background: #fff;
+}
+
+/* ── 노트 패널 ── */
+.sc-note-pane {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--sc-surface);
+  position: relative;
+}
+
+.sc-note-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sc-line);
+  background: var(--sc-surface-2);
+  min-height: 52px;
+}
+
+.sc-note-home {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border: 1px solid var(--sc-line-strong);
+  border-radius: 8px;
+  background: var(--sc-surface);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sc-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.sc-note-home:hover {
+  background: var(--sc-accent-soft);
+  border-color: var(--sc-accent);
+}
+
+.sc-note-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  overflow: hidden;
+}
+.sc-note-title strong {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--sc-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc-note-en {
+  font-size: 11px;
+  color: var(--sc-muted);
+  white-space: nowrap;
+}
+.sc-note-hint {
+  font-size: 12px;
+  color: var(--sc-muted);
+}
+.sc-note-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--sc-warn) 14%, transparent);
+  color: var(--sc-warn);
+}
+
+.sc-note-tools {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sc-note-tools .sc-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--sc-line-strong);
+  border-radius: 8px;
+  background: var(--sc-surface);
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a5568;
+}
+.sc-note-tools .sc-tool:hover:not(:disabled) {
+  background: var(--sc-accent-soft);
+  border-color: var(--sc-accent);
+  color: var(--sc-accent);
+}
+.sc-note-tools .sc-tool:disabled {
+  opacity: 0.4;
+}
+.sc-tool-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+/* ── 노트 본문 (iframe) ── */
+.sc-note-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  background: var(--sc-surface);
+}
+.sc-note-body iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.sc-note-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--sc-muted);
+  background: var(--sc-surface);
+  pointer-events: none;
+}
+
+.sc-note-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 32px;
+  text-align: center;
+}
+.sc-note-empty p {
+  margin: 0;
+  font-size: 14px;
+  color: #48505c;
+  max-width: 340px;
+  line-height: 1.6;
+}
+.sc-note-empty .sc-note-sub {
+  font-size: 12px;
+  color: var(--sc-muted);
+}
+.sc-note-logo {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 6px;
+  border-radius: 14px;
+  background: var(--sc-accent-soft);
+  -webkit-mask: url("/favicon.svg") center / 60% no-repeat;
+  mask: url("/favicon.svg") center / 60% no-repeat;
+  background-color: var(--sc-accent);
+}
+.sc-note-searchlink {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--sc-line-strong);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sc-accent);
+  text-decoration: none;
+}
+.sc-note-searchlink:hover {
+  background: var(--sc-accent-soft);
+}
+
+.sc-note-open-ext {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--sc-line-strong);
+  background: #ffffffe0;
+  color: var(--sc-muted);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+}
+.sc-note-open-ext:hover {
+  color: var(--sc-accent);
+  border-color: var(--sc-accent);
+}
+
+/* ── 좁은 화면: 세로 적층 ── */
+@media (max-width: 900px) {
+  .sc-shell {
+    flex-direction: column !important;
+  }
+  .sc-resize-handle {
+    width: 100% !important;
+    height: 8px;
+    cursor: row-resize;
+  }
+  .sc-resize-grip {
+    width: 34px;
+    height: 2px;
+  }
+  .sc-note-bar {
+    flex-wrap: wrap;
+    min-height: 0;
+  }
+}
