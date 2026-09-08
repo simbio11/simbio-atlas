@@ -125,6 +125,10 @@ html.dark .layers-reopen {
     display: none !important;
   }
 }
+/* 컨트롤 숨기기 토글: 데스크탑에선 불필요 (세로 분할 아닐 때 숨김) */
+.atlas-ctrl-toggle {
+  display: none;
+}
 
 html,
 body,
@@ -457,20 +461,88 @@ body,
     right: 12px;
   }
 
-  /* 뷰 컨트롤: 3D 위에 겹치지 않게 우측 상단 세로로 고정 */
+  /* 뷰 컨트롤: 우측 상단, 작게 (겹침 방지) */
   .studio .view-controls {
-    top: 92px !important;
-    right: 10px !important;
+    top: 88px !important;
+    right: 8px !important;
     left: auto !important;
     bottom: auto !important;
     transform: none !important;
     flex-direction: column !important;
     width: fit-content !important;
+    padding: 3px !important;
+    gap: 1px !important;
+    border-radius: 10px !important;
+  }
+  .studio .view-controls button {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .studio .view-controls button span {
+    font-size: 11px !important;
+  }
+  .studio .view-controls svg {
+    width: 14px;
+    height: 14px;
   }
   .studio .view-controls i {
     width: auto;
     height: 1px;
-    margin: 4px;
+    margin: 3px;
+  }
+
+  /* 하단 dock: 낮게 압축 (Assembled/Every piece 라벨 숨김) */
+  .studio .bottom-dock {
+    padding: 9px 12px !important;
+    gap: 12px !important;
+    border-radius: 12px !important;
+  }
+  .studio .explode-label {
+    margin-bottom: 5px !important;
+    font-size: 11px !important;
+  }
+  .studio .explode-label output {
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+  }
+  .studio .slider-endpoints {
+    display: none !important;
+  }
+  .studio .explode-control [data-slot="slider"] {
+    padding: 6px 0 !important;
+  }
+  .studio .dock-reset,
+  .studio .dock-layers {
+    font-size: 9px !important;
+  }
+
+  /* ── 컨트롤 숨기기 토글 (모바일: 세로 분할 시에만 표시) — 좌상단, 뷰컨트롤 반대편 ── */
+  .atlas-ctrl-toggle {
+    display: inline-flex !important;
+    position: absolute;
+    left: 14px;
+    top: 118px;
+    z-index: 40;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--card) 90%, transparent);
+    color: var(--foreground);
+    box-shadow: 0 4px 16px rgba(20, 20, 25, 0.14);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+  }
+  html.dark .atlas-ctrl-toggle {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  }
+  .studio.ctrl-hidden .view-controls,
+  .studio.ctrl-hidden .bottom-dock,
+  .studio.ctrl-hidden .scene-caption,
+  .studio.ctrl-hidden .studio-footer {
+    display: none !important;
   }
 
   /* 노트 툴바: 한 줄 유지, 툴 버튼 압축 */

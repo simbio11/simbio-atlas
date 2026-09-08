@@ -1,7 +1,7 @@
 import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
 import {useEffect,useMemo,useRef,useState} from 'react';
-import {Activity,ArrowUpRight,ChevronLeft,ChevronRight,Focus,Info,Layers3,Pause,RotateCcw,RotateCw,Search,X} from 'lucide-react';
+import {Activity,ArrowUpRight,ChevronLeft,ChevronRight,Focus,Info,Layers3,Pause,RotateCcw,RotateCw,Search,SlidersHorizontal,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Badge} from '@/components/ui/badge';
 import {Slider} from '@/components/ui/slider';
@@ -17,7 +17,7 @@ import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Concept
 const initial:SceneState={explode:0,visible:DEFAULT_VISIBLE,selected:[],hidden:[],isolate:false,view:'three-quarter',rotate:false,reset:0};
 export default function Home(){
  const detailTitle=useRef<HTMLHeadingElement>(null);
- const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[query,setQuery]=useState(''),[chosen,setChosen]=useState<Concept|null>(null),[resolution,setResolution]=useState<NoteResolution|null>(null),[layersCollapsed,setLayersCollapsed]=useState(false);
+ const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[query,setQuery]=useState(''),[chosen,setChosen]=useState<Concept|null>(null),[resolution,setResolution]=useState<NoteResolution|null>(null),[layersCollapsed,setLayersCollapsed]=useState(false),[ctrlHidden,setCtrlHidden]=useState(false);
  useEffect(()=>{void loadGardenIndex();},[]);
  useEffect(()=>{const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setChosen(null);setResolution(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});fetch('/models/atlas.json',{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error('The anatomy catalogue could not be loaded.');return r.json();}).then(data=>setAtlas(data as Atlas)).catch(e=>{if(e.name!=='AbortError')setError(e.message);});return()=>abort.abort();},[]);
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
@@ -37,10 +37,11 @@ export default function Home(){
  const reset=()=>{setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setChosen(null);setResolution(null);setDetails(false);setPanel(null);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  return <SplitShell left={
-  <main className="studio">
+  <main className={`studio ${ctrlHidden ? 'ctrl-hidden' : ''}`}>
   {atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:false}} onSelect={choosePart} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError}/>}
   <div className="vignette"/>
   <SharedNav active="atlas"/>
+  <button type="button" className="atlas-ctrl-toggle" aria-pressed={ctrlHidden} aria-label={ctrlHidden?'컨트롤 보기':'컨트롤 숨기기'} title={ctrlHidden?'컨트롤 보기':'컨트롤 숨기기'} onClick={()=>setCtrlHidden(v=>!v)}>{ctrlHidden?<SlidersHorizontal size={16}/>:<X size={16}/>}</button>
   <header className="identity"><div className="eyebrow"><span className="status-dot"/> SIM_BIO_CORTEX</div><h1>Sim_Bio_Atlas<Badge variant="outline" className="edition">3D</Badge></h1><div className="identity-meta">{atlas?atlas.parts.length.toLocaleString():'2,234'} 구조물 <span>·</span> BodyParts3D</div></header>
   <nav className="top-actions" aria-label="Explorer panels"><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="Search anatomy"><Search size={18}/><span>Find a structure</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="About this atlas" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   {layersCollapsed&&<button type="button" className="layers-reopen desktop-only" onClick={()=>setLayersCollapsed(false)} aria-label="시스템 패널 펼치기"><Layers3 size={15}/><span>Systems</span></button>}
