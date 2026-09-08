@@ -662,10 +662,12 @@ html.dark .sc-resize-grip {
   z-index: 5;
 }
 
-/* ═══ 인체 지도 좌상단 브랜드 = 정원 page-title 과 동일 스타일 ("Atlas"만 다름) ═══ */
+/* ═══ 인체 지도 좌상단 브랜드 = 정원 Sim_Bio_Cortex 와 픽셀 단위로 동일 ("Atlas"만 다름)
+   공통 스펙: 로고 30px + gap 10px + Pretendard 700 / 1.5rem / -0.02em / var(--dark)
+   위치: 뷰포트 기준 left 32px, top ~66px (스위치 밴드 아래). .studio 는 .sc-shell(padding-top 60) 안 → top 6 ═══ */
 .identity {
-  top: 26px !important;
-  left: 30px !important;
+  top: 6px !important;
+  left: 32px !important;
   pointer-events: none;
 }
 .identity .eyebrow {
@@ -677,10 +679,10 @@ html.dark .sc-resize-grip {
   gap: 10px;
   margin: 0;
   font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: var(--foreground);
 }
 .identity h1::before {
@@ -696,13 +698,13 @@ html.dark .sc-resize-grip {
   display: none !important;
 }
 .identity .identity-meta {
-  margin-top: 5px;
+  margin-top: 4px;
   font-size: 10px;
   letter-spacing: 0;
   color: var(--muted-foreground);
 }
 .top-actions {
-  top: 22px !important;
+  top: 18px !important;
 }
 
 .sbc-switch-btn[data-active="true"] .sbc-switch-dot {
