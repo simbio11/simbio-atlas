@@ -69,15 +69,14 @@ function compose(str) {
   if (VOCAB[s]) return VOCAB[s]; // 볼트 용어 최우선
   if (PHRASE[s]) return PHRASE[s];
 
-  // laterality
+  // laterality — 좌/우 접두어는 표시·노트연결에 방해되므로 아예 제거 (3D 메시는 여전히 좌우 구분됨)
   const sm = s.match(SIDE);
-  let side = '';
+  const side = '';
   let core = s;
   if (sm) {
-    side = MOD[sm[1].toLowerCase()] || '';
     core = s.slice(sm[0].length).trim();
-    if (VOCAB[core]) return side + VOCAB[core];
-    if (PHRASE[core]) return side + PHRASE[core];
+    if (VOCAB[core]) return VOCAB[core];
+    if (PHRASE[core]) return PHRASE[core];
   }
 
   // "... X of Y"
