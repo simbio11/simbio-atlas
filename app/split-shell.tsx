@@ -1,23 +1,32 @@
 import {useCallback, useEffect, useRef, useState, type ReactNode} from 'react';
 
 const KEY = 'sc-atlas-split';
-const MIN = 32;
-const MAX = 74;
+const MIN = 30;
+const MAX = 76;
+const isVerticalNow = () =>
+  typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
+const keyFor = (v: boolean) => KEY + (v ? ':v' : '');
+const defFor = (v: boolean) => (v ? 60 : 54); // 모바일 세로: 3D 우선
 
-/** 좌우(좁으면 상하) 리사이즈 가능한 5:5 분할 셸. 외부 의존성 없음. */
+/** 좌우(좁으면 상하) 리사이즈 가능한 분할 셸. 외부 의존성 없음. */
 export default function SplitShell({left, right}: {left: ReactNode; right: ReactNode}) {
   const host = useRef<HTMLDivElement>(null);
+  const [vertical, setVertical] = useState(isVerticalNow);
   const [pct, setPct] = useState<number>(() => {
-    const v = typeof localStorage !== 'undefined' ? Number(localStorage.getItem(KEY)) : NaN;
-    return Number.isFinite(v) && v >= MIN && v <= MAX ? v : 54;
+    const v = isVerticalNow();
+    const stored = typeof localStorage !== 'undefined' ? Number(localStorage.getItem(keyFor(v))) : NaN;
+    return Number.isFinite(stored) && stored >= MIN && stored <= MAX ? stored : defFor(v);
   });
-  const [vertical, setVertical] = useState(false);
   const dragging = useRef(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 900px)');
-    const on = () => setVertical(mq.matches);
-    on();
+    const on = () => {
+      const v = mq.matches;
+      setVertical(v);
+      const stored = Number(localStorage.getItem(keyFor(v)));
+      setPct(Number.isFinite(stored) && stored >= MIN && stored <= MAX ? stored : defFor(v));
+    };
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
@@ -40,7 +49,7 @@ export default function SplitShell({left, right}: {left: ReactNode; right: React
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
       try {
-        localStorage.setItem(KEY, String(Math.round(pct)));
+        localStorage.setItem(keyFor(vertical), String(Math.round(pct)));
       } catch {
         /* ignore */
       }
@@ -53,7 +62,7 @@ export default function SplitShell({left, right}: {left: ReactNode; right: React
       window.removeEventListener('pointerup', up);
       window.removeEventListener('pointercancel', up);
     };
-  }, [onMove, pct]);
+  }, [onMove, pct, vertical]);
 
   const startDrag = (e: React.PointerEvent) => {
     e.preventDefault();

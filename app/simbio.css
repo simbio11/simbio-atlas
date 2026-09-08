@@ -74,8 +74,11 @@
 }
 
 /* ═══ 인체 지도: 시스템 사이드바 — 접기 가능 (숨기지 않음) ═══ */
-.layers-panel.is-collapsed {
-  display: none !important;
+/* 데스크탑에서만 접기. 모바일은 하단 Systems 버튼으로 여닫음 (base .mobile-open) */
+@media (min-width: 901px) {
+  .layers-panel.is-collapsed {
+    display: none !important;
+  }
 }
 .layers-collapse {
   display: inline-flex;
@@ -116,8 +119,11 @@
 html.dark .layers-reopen {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
-.dock-layers {
-  display: none !important;
+/* 데스크탑에선 하단 Systems 버튼 숨김(사이드바 상시 노출), 모바일에선 유지 */
+@media (min-width: 901px) {
+  .dock-layers {
+    display: none !important;
+  }
 }
 
 html,
@@ -407,19 +413,106 @@ body,
 @media (max-width: 900px) {
   .sc-shell {
     flex-direction: column !important;
+    padding-top: 52px;
   }
   .sc-resize-handle {
     width: 100% !important;
-    height: 8px;
+    height: 10px;
+    flex: 0 0 10px;
     cursor: row-resize;
   }
   .sc-resize-grip {
     width: 34px;
     height: 2px;
   }
+
+  /* 공용 스위치: 더 작게, 브랜드와 안 겹치게 */
+  .sbc-switch {
+    top: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .sbc-switch-btn {
+    padding: 6px 11px;
+    font-size: 12px;
+  }
+  .sbc-theme-toggle {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* 브랜드: 살짝 줄이고 스위치 밑으로 */
+  .identity {
+    top: 4px !important;
+    left: 16px !important;
+  }
+  .identity h1 {
+    font-size: 1.3rem;
+  }
+  .identity .identity-meta {
+    font-size: 9px;
+  }
+  .top-actions {
+    top: 6px !important;
+    right: 12px;
+  }
+
+  /* 뷰 컨트롤: 3D 위에 겹치지 않게 우측 상단 세로로 고정 */
+  .studio .view-controls {
+    top: 92px !important;
+    right: 10px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    flex-direction: column !important;
+    width: fit-content !important;
+  }
+  .studio .view-controls i {
+    width: auto;
+    height: 1px;
+    margin: 4px;
+  }
+
+  /* 노트 툴바: 한 줄 유지, 툴 버튼 압축 */
   .sc-note-bar {
-    flex-wrap: wrap;
-    min-height: 0;
+    flex-wrap: nowrap;
+    min-height: 46px;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .sc-note-hint {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .sc-note-tools .sc-tool {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+  .sc-note-tools .sc-tool span:not(.sc-tool-count) {
+    display: none;
+  }
+  .sc-note-empty {
+    padding: 28px 22px;
+    gap: 8px;
+  }
+  .sc-note-empty p {
+    font-size: 13px;
+  }
+  .sc-note-logo {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* 아주 좁은 화면 */
+@media (max-width: 420px) {
+  .sbc-switch-btn {
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+  .identity h1 {
+    font-size: 1.2rem;
   }
 }
 
