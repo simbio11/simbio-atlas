@@ -64,7 +64,8 @@ function joinBase(str) {
 }
 
 function compose(str) {
-  const s = str.toLowerCase().trim();
+  // "A of left/right B" → "A of B" (좌우는 어차피 제거 대상)
+  const s = str.toLowerCase().trim().replace(/\bof (left|right) /g, 'of ');
   if (!s) return null;
   if (VOCAB[s]) return VOCAB[s]; // 볼트 용어 최우선
   if (PHRASE[s]) return PHRASE[s];
@@ -117,10 +118,16 @@ function compose(str) {
   // base + mod 조합
   const {parts, translated, total} = joinBase(core);
   if (translated === 0 || translated < total) return null; // 완전 해석만 채택
+  // 라틴 부위 수식어(thoracis/lumborum/capitis/cervicis/colli/abdominis 등)는 한국어에선 앞에 붙임
+  //   longissimus thoracis → 흉최장근  (뒤에 붙는 "최장근흉" 방지)
+  const REGION = new Set(['thoracis', 'lumborum', 'capitis', 'cervicis', 'colli', 'abdominis']);
+  const regionParts = parts.filter((p) => REGION.has(p.en.toLowerCase()));
+  const restParts = parts.filter((p) => !REGION.has(p.en.toLowerCase()));
+  const ordered = [...regionParts, ...restParts];
   let acc = side;
-  parts.forEach((p, idx) => {
+  ordered.forEach((p, idx) => {
     let ko = p.ko;
-    if (p.base && p.en.toLowerCase() === 'muscle' && parts.length > 1 && idx === parts.length - 1) {
+    if (p.base && p.en.toLowerCase() === 'muscle' && ordered.length > 1 && idx === ordered.length - 1) {
       ko = acc.endsWith('근') ? '' : '근'; // 이미 근으로 끝나면 중복 방지
     }
     acc += ko;

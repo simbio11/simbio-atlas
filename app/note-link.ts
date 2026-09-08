@@ -97,10 +97,25 @@ export function resolveNote(displayName: string, englishName?: string, base = GA
     }
   }
 
-  // 3) 한국어명에서 좌우 접두어 제거 후 재시도 (왼/오른)
+  // 3) 한국어명을 점진적으로 단순화하며 재시도
   if (!hit && korean) {
-    const bare = korean.replace(/^(왼|오른|좌|우)\s*/, '');
-    if (bare !== korean) hit = findInIndex(bare, base);
+    const tries = new Set<string>();
+    let k = korean;
+    // 좌/우 접두어
+    tries.add(k.replace(/^(왼|오른|좌|우)\s*/, ''));
+    // 뒤에 붙은 부위/갈래/힘살/군 등 수식 제거 → 모근육 노트로
+    tries.add(k.replace(/\s+\S*(부분|갈래|힘살|힘줄|군|두\(갈래\))$/, ''));
+    tries.add(k.replace(/\s*\S*(부분|갈래|힘살|힘줄|군)\s*$/, '').trim());
+    // 근 뒤에 붙은 라틴부위 축약(흉/요/경/두/복) 제거 → 흉최장근 → 최장근
+    tries.add(k.replace(/(근)[흉요경두복천심]+$/, '$1'));
+    // 근 앞에 붙은 라틴부위 축약 제거 → 최장근흉 형태 대비
+    tries.add(k.replace(/^[흉요경두복천심]+(?=\S*근$)/, ''));
+    for (const cand of tries) {
+      if (cand && cand !== korean) {
+        hit = findInIndex(cand, base);
+        if (hit) break;
+      }
+    }
   }
 
   if (hit) return { url: hit.url, label: hit.title, english, matched: true, korean };
