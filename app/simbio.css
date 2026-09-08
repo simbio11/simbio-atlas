@@ -392,3 +392,289 @@ body,
     min-height: 0;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Sim_Bio_Cortex 테마 정렬 — 팔레트 · 폰트 · 다크모드
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system,
+    BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* LIGHT — 모던 뉴트럴 (가든과 동일) */
+  --background: #ffffff;
+  --foreground: #1a1a18;
+  --card: #ffffff;
+  --card-foreground: #1a1a18;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a18;
+  --primary: #3c4a68;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f3f1;
+  --secondary-foreground: #1a1a18;
+  --muted: #f3f3f1;
+  --muted-foreground: #7a7a75;
+  --accent: #f0f0ee;
+  --accent-foreground: #1a1a18;
+  --destructive: #c0472f;
+  --border: #e7e7e4;
+  --input: #e0e0dc;
+  --ring: #3c4a68;
+
+  --sc-ink: #1a1a18;
+  --sc-muted: #7a7a75;
+  --sc-line: #e7e7e4;
+  --sc-line-strong: #d8d8d4;
+  --sc-surface: #ffffff;
+  --sc-surface-2: #f5f5f3;
+  --sc-accent: #3c4a68;
+  --sc-accent-soft: rgba(60, 74, 104, 0.08);
+}
+
+html.dark {
+  color-scheme: dark;
+
+  /* DARK — 차분한 다크 블루 (가든과 동일) */
+  --background: #0f1626;
+  --foreground: #eef2fb;
+  --card: #131c30;
+  --card-foreground: #eef2fb;
+  --popover: #131c30;
+  --popover-foreground: #eef2fb;
+  --primary: #87adef;
+  --primary-foreground: #0f1626;
+  --secondary: #1a2540;
+  --secondary-foreground: #eef2fb;
+  --muted: #1a2540;
+  --muted-foreground: #7c89a6;
+  --accent: #1e2942;
+  --accent-foreground: #eef2fb;
+  --destructive: #f2a08e;
+  --border: #1e2942;
+  --input: #2b3958;
+  --ring: #87adef;
+
+  --sc-ink: #eef2fb;
+  --sc-muted: #7c89a6;
+  --sc-line: #1e2942;
+  --sc-line-strong: #2b3958;
+  --sc-surface: #131c30;
+  --sc-surface-2: #1a2540;
+  --sc-accent: #87adef;
+  --sc-accent-soft: rgba(135, 173, 239, 0.14);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+html.dark body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ── 다크: 3D 화면 위 반투명 크롬 ── */
+html.dark .glass {
+  background: #131c30e6;
+  border-color: #2b3958;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35), 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+html.dark .identity h1 {
+  color: #eef2fb;
+}
+html.dark .eyebrow {
+  color: #7c89a6;
+}
+html.dark .identity-meta {
+  color: #7c89a6;
+}
+html.dark .identity-meta span {
+  color: #5c6a86;
+}
+html.dark h1 .edition {
+  color: #9aa8c4;
+  border-color: #2b3958;
+}
+html.dark .top-actions button {
+  background: #131c30d9;
+  border-color: #2b3958;
+  color: #c3cde1;
+}
+html.dark .top-actions button:hover {
+  background: #1a2540;
+  color: #eef2fb;
+}
+html.dark .top-actions kbd {
+  border-color: #2b3958;
+}
+html.dark .top-actions .active {
+  background: #1e2942;
+  color: #eef2fb;
+}
+html.dark .view-controls button {
+  color: #9aa8c4;
+}
+html.dark .view-controls .active {
+  background: #87adef;
+  color: #0f1626;
+}
+html.dark .view-controls i {
+  background: #2b3958;
+}
+html.dark .scene-caption {
+  color: #7c89a6;
+}
+html.dark .caption-line {
+  background: #2b3958;
+}
+html.dark .studio-footer {
+  color: #7c89a6;
+}
+html.dark .studio-footer b {
+  color: #4c5a76;
+}
+html.dark .explode-label {
+  color: #c3cde1;
+}
+html.dark .explode-label output {
+  background: #1a2540;
+  border-color: #2b3958;
+  color: #eef2fb;
+}
+html.dark .explode-label output span {
+  color: #7c89a6;
+}
+html.dark .slider-endpoints,
+html.dark .dock-reset {
+  color: #7c89a6;
+}
+html.dark .explode-control [data-slot="slider-thumb"] {
+  background: #87adef;
+  border-color: #131c30;
+}
+html.dark .search-panel [data-slot="input-group"] {
+  background: #0f1626;
+}
+html.dark .search-panel input {
+  color: #eef2fb;
+}
+html.dark .anatomy-search-results {
+  background: #131c30 !important;
+  border-color: #2b3958 !important;
+  color: #eef2fb !important;
+}
+html.dark .search-note {
+  color: #7c89a6;
+}
+html.dark .about-sheet .structure-title,
+html.dark .about-copy strong,
+html.dark .about-copy h3 {
+  color: #eef2fb;
+}
+html.dark .about-copy {
+  color: #a7b3c8;
+}
+html.dark .about-copy a {
+  color: #87adef;
+}
+html.dark .loading strong {
+  color: #eef2fb;
+}
+html.dark .loading span,
+html.dark .loading-track {
+  color: #7c89a6;
+}
+html.dark .part-hover {
+  background: #1a2540f5;
+  color: #eef2fb;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* ── 노트 패널: 다크 ── */
+html.dark .sc-note-bar {
+  background: #131c30;
+  border-color: #1e2942;
+}
+html.dark .sc-note-title strong {
+  color: #eef2fb;
+}
+html.dark .sc-note-home,
+html.dark .sc-note-tools .sc-tool {
+  background: #131c30;
+  border-color: #2b3958;
+  color: #c3cde1;
+}
+html.dark .sc-note-empty p {
+  color: #c3cde1;
+}
+html.dark .sc-note-open-ext {
+  background: #131c30e0;
+  border-color: #2b3958;
+}
+html.dark .sc-note-loading {
+  background: #0f1626;
+  color: #7c89a6;
+}
+html.dark .sc-resize-handle {
+  background: #1e2942;
+}
+html.dark .sc-resize-grip {
+  background: #2b3958;
+}
+
+/* ═══ 공용 스위치: 위치·z-index·다크·초록 불 ═══ */
+.sbc-switch {
+  z-index: 1200;
+}
+/* 인체 지도 쪽에서는 3D 패널 중앙 상단에 배치(우상단 검색과 겹치지 않게) */
+.sc-atlas-panel .sbc-switch {
+  position: absolute;
+}
+.identity,
+.top-actions {
+  z-index: 5;
+}
+
+.sbc-switch-btn[data-active="true"] .sbc-switch-dot {
+  opacity: 1;
+  background: #3fb950; /* 초록 불 */
+  box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.22), 0 0 12px rgba(63, 185, 80, 0.9);
+}
+
+.sbc-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 2px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5a6472;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sbc-theme-toggle:hover {
+  background: var(--sc-accent-soft);
+  color: var(--sc-accent);
+}
+
+html.dark .sbc-switch {
+  background: #131c30e8;
+  border-color: #2b3958;
+}
+html.dark .sbc-switch-btn {
+  color: #8f9bb3;
+}
+html.dark .sbc-switch-btn:hover {
+  color: #87adef;
+}
+html.dark .sbc-switch-btn[data-active="true"] {
+  color: #0f1626;
+  background: #87adef;
+}
+html.dark .sbc-theme-toggle {
+  color: #8f9bb3;
+}
+html.dark .sbc-theme-toggle:hover {
+  background: rgba(135, 173, 239, 0.16);
+  color: #a9c4ff;
+}
