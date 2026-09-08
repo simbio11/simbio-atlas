@@ -74,7 +74,8 @@ function findInIndex(term: string, base: string): { url: string; title: string }
       const tail = slug.split('/').pop() ?? '';
       return tail === seg || tail === term.trim();
     });
-  return hit ? { url: `${base}/${hit[0]}`, title: hit[1].title || term } : null;
+  // ?sbcEmbed=1 → 정원이 좌측 사이드바·헤더·스위치를 숨긴 리더 뷰로 렌더
+  return hit ? { url: `${base}/${hit[0]}?sbcEmbed=1`, title: hit[1].title || term } : null;
 }
 
 /**
